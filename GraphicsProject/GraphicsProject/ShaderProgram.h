@@ -24,4 +24,5 @@ public:
 	void Use();
 
 	void SetFloatUniform(std::string varName, float value);
+	void SetUniform(std::string varName, glm::mat4& value);
 };

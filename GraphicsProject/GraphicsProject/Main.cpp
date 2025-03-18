@@ -19,10 +19,6 @@ int main(void)
 		{
 			graphicsAPP->Update();
 			graphicsAPP->Draw();
-			//swapping the buffers // Show the user the screen data. 
-			glfwSwapBuffers(graphicsAPP->m_window);
-			//Tell GLFW ti check if anything is going on with the input.
-			glfwPollEvents();
 		}
 	}
 

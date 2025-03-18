@@ -46,14 +46,26 @@ bool Application::Initialise()
 	//Gizmo
 	unsigned int gridSize = 10000;
 	aie::Gizmos::create(gridSize, gridSize, 0.0f, 0.0f);
+
+	//create simple camera transforms 
 	m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
+	m_quadMesh.InitialiseQuad();
+	m_quadTransform = {
+		10,0,0,0,
+		0,10,0,0,
+		0,0,10,0,
+		0,0,0,01 };
 
     return true;
 }
 
 void Application::Update()
+{
+}
+
+void Application::Draw()
 {
 	//clear screen.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -72,10 +84,22 @@ void Application::Update()
 	}
 
 	aie::Gizmos::draw(m_projectionMat * m_viewMat);
-}
 
-void Application::Draw()
-{
+	//bind shader 
+	m_shader.Use();
+
+	//bind transform 
+	glm::mat4 pvm = m_projectionMat * m_viewMat * m_quadTransform;
+	m_shader.SetUniform("ProjectionViewModel", pvm);
+
+	//draw quad
+	m_quadMesh.Draw();
+
+	//swapping the buffers // Show the user the screen data. 
+	glfwSwapBuffers(m_window);
+	//Tell GLFW ti check if anything is going on with the input.
+	glfwPollEvents();
+	
 }
 
 bool Application::Shutdown()
