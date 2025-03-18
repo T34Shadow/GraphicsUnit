@@ -3,6 +3,7 @@
 #include "Gizmos.h"
 #include "ShaderProgram.h"
 
+#include "Mesh.h"
 #include "Graphics.h"
 #include <iostream>
 #include <vector>
@@ -27,6 +28,8 @@ public:
 	unsigned int gridSize = 10000;
 	glm::mat4 m_viewMat;
 	glm::mat4 m_projectionMat;
+
+	Mesh m_quadMesh;
 
 	//Buffers
 	GLuint vertexBufferID = 0;
