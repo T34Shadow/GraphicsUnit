@@ -12,7 +12,6 @@ int main(void)
 	Application* graphicsAPP;
 	
 	graphicsAPP = new Application;
-	float deltaTime = glfwGetTime();
 	if (graphicsAPP->Initialise())
 	{
 		//The main entry point loop.
