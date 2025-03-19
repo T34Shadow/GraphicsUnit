@@ -2,16 +2,7 @@
 
 // a simple flat colour shader
 
-//in vec3 colour;
-//
-//out vec4 PixelColour;
-//
-//void main()
-//{
-//	PixelColour = vec4(colour, 1.0);
-//}
-
-out vec4 fragColour;
+out vec4 FragColour;
 
 void main()
 {

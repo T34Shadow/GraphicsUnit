@@ -36,7 +36,7 @@ void Mesh::InitialiseQuad()
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex), vertices, GL_STATIC_DRAW);
 
     //enable first element as postion 
-    glDisableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
     //unbind buffers 
@@ -48,6 +48,51 @@ void Mesh::InitialiseQuad()
 
 }
 
+void Mesh::Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount, unsigned int* indices)
+{
+    assert(vertexArrayObject == 0);
+
+    // generate buffers
+    glGenBuffers(1, &vertexBufferObject);
+    glGenVertexArrays(1, &vertexArrayObject);
+
+    // bind vertex array aka a mesh wrapper
+    glBindVertexArray(vertexArrayObject);
+
+    // bind vertex buffer
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+
+    // fill vertex buffer
+    glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+
+    // enable first element as position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+    //bind indices if there are any 
+    if (indexCount != 0)
+    {
+        glGenBuffers(1, &indexBufferObject);
+
+        //bind vertex buffer
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+
+        //fill vertex buffer
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+        triCount = indexCount / 3;
+    }
+    else
+    {
+        triCount = vertexCount / 3;
+    }
+
+    //unbind buffers 
+    glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 void Mesh::Draw()
 {
     glBindVertexArray(vertexArrayObject);
@@ -57,6 +102,6 @@ void Mesh::Draw()
     }
     else
     {
-        glDrawArrays(GL_TRIANGLES, 0, 0 * triCount);
+        glDrawArrays(GL_TRIANGLES, 0, 3 * triCount);
     }
 }

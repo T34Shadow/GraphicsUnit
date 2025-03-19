@@ -29,7 +29,7 @@ public:
 	glm::mat4 m_viewMat;
 	glm::mat4 m_projectionMat;
 
-	ShaderProgram m_shader;
+	ShaderProgram* m_shader;
 	Mesh m_quadMesh;
 	glm::mat4 m_quadTransform;
 

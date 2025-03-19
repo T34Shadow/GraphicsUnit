@@ -20,26 +20,9 @@ bool Application::Initialise()
 		return false;
 	}
 
-	std::vector<float> someFloats
-	{
-		0,0,0, 1,0,0,
-		0,1,0, 0,1,0,
-		1,0,0, 0,0,1,
-	};
+	m_shader = new ShaderProgram("simpleShader.vert", "simpleShader.frag");
 
-	GLuint vertexBufferID = 0;
-	glGenBuffers(1, &vertexBufferID);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * someFloats.size(), someFloats.data(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-
-	ShaderProgram testShader("simpleShader.vert", "simpleShader.frag");
-
-	testShader.Use();
+	m_shader->Use();
 	glClearColor(0.450f, 0.450f, 0.450f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
@@ -51,7 +34,18 @@ bool Application::Initialise()
 	m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
-	m_quadMesh.InitialiseQuad();
+	//create simple mesh
+	//m_quadMesh.InitialiseQuad();
+	Mesh::Vertex vertices[6];
+	vertices[0].pos = { -0.5f, 0, 0.5f, 1 };
+	vertices[1].pos = { 0.5f, 0, 0.5f, 1 };
+	vertices[2].pos = { -0.5f, 0, -0.5f, 1 };
+				   
+	vertices[3].pos = { -0.5f, 0, -0.5f, 1 };
+	vertices[4].pos = { 0.5f, 0, 0.5f, 1 };
+	vertices[5].pos = { 0.5f, 0, -0.5f, 1 };
+
+	m_quadMesh.Initialise(6, vertices);
 	m_quadTransform = {
 		10,0,0,0,
 		0,10,0,0,
@@ -63,6 +57,7 @@ bool Application::Initialise()
 
 void Application::Update()
 {
+
 }
 
 void Application::Draw()
@@ -86,11 +81,11 @@ void Application::Draw()
 	aie::Gizmos::draw(m_projectionMat * m_viewMat);
 
 	//bind shader 
-	m_shader.Use();
+	m_shader->Use();
 
 	//bind transform 
 	glm::mat4 pvm = m_projectionMat * m_viewMat * m_quadTransform;
-	m_shader.SetUniform("ProjectionViewModel", pvm);
+	m_shader->SetUniform("ProjectionViewModel", pvm);
 
 	//draw quad
 	m_quadMesh.Draw();
