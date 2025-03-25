@@ -10,8 +10,8 @@
 int main(void)
 {
 	Application* graphicsAPP;
-	
 	graphicsAPP = new Application;
+
 	if (graphicsAPP->Initialise())
 	{
 		//The main entry point loop.

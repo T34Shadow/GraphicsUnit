@@ -30,7 +30,7 @@ public:
 	glm::mat4 m_projectionMat;
 
 	ShaderProgram* m_shader;
-	Mesh m_quadMesh;
+	std::vector<Mesh*> objects;
 	glm::mat4 m_quadTransform;
 
 	//Buffers

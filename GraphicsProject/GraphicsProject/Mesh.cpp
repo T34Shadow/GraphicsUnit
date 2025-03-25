@@ -1,4 +1,7 @@
 #include "Mesh.h"
+#include <assimp/scene.h>
+#include <assimp/cimport.h>
+#include <vector>
 
 Mesh::~Mesh()
 {
@@ -91,6 +94,49 @@ void Mesh::Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Mesh::Initialise(const char* fileName)
+{
+
+    //read vertcies from the model
+    const aiScene* scene = aiImportFile(fileName, 0);
+
+    //just use the first mesh we find, for now.
+    aiMesh* mesh = scene->mMeshes[0];
+
+    //extract indicies from the first mesh
+    int numFaces = mesh->mNumFaces;
+    std::vector<unsigned int> indices;
+
+    for (int i = 0; i < numFaces; i++)
+    {
+        indices.push_back(mesh->mFaces[i].mIndices[0]);
+        indices.push_back(mesh->mFaces[i].mIndices[2]);
+        indices.push_back(mesh->mFaces[i].mIndices[1]);
+
+        //generate a second triangle for quads 
+        if (mesh->mFaces[i].mNumIndices == 4)
+        {
+            indices.push_back(mesh->mFaces[i].mIndices[0]);
+            indices.push_back(mesh->mFaces[i].mIndices[3]);
+            indices.push_back(mesh->mFaces[i].mIndices[2]);            
+        }
+
+    }
+
+    //extract vertex data
+    int numV = mesh->mNumVertices;
+    Vertex* vertices = new Vertex[numV];
+
+    for (int i = 0; i < numV; i++)
+    {
+        vertices[i].pos = glm::vec4(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z, 1);
+    }
+    Initialise(numV, vertices, indices.size(), indices.data());
+    delete[] vertices;
+
+
 }
 
 void Mesh::Draw()

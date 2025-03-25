@@ -45,12 +45,22 @@ bool Application::Initialise()
 	vertices[4].pos = { 0.5f, 0, 0.5f, 1 };
 	vertices[5].pos = { 0.5f, 0, -0.5f, 1 };
 
-	m_quadMesh.Initialise(6, vertices);
+	objects.resize(10);
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i] = new Mesh;
+	}
+
 	m_quadTransform = {
-		10,0,0,0,
-		0,10,0,0,
-		0,0,10,0,
-		0,0,0,01 };
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1 };
+
+	objects[0]->Initialise("soulspear.obj");
+	objects[1]->Initialise("Suzanne.fbx");
+	
+
 
     return true;
 }
@@ -88,7 +98,10 @@ void Application::Draw()
 	m_shader->SetUniform("ProjectionViewModel", pvm);
 
 	//draw quad
-	m_quadMesh.Draw();
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Draw();
+	}
 
 	//swapping the buffers // Show the user the screen data. 
 	glfwSwapBuffers(m_window);
