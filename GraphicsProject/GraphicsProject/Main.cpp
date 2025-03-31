@@ -17,7 +17,9 @@ int main(void)
 		//The main entry point loop.
 		while (!glfwWindowShouldClose(graphicsAPP->m_window))
 		{
-			graphicsAPP->Update();
+			float delta = glfwGetTime();
+
+			graphicsAPP->Update(delta);
 			graphicsAPP->Draw();
 		}
 	}

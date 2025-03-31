@@ -5,7 +5,8 @@ bool Application::Initialise()
 	if (!glfwInit()) return false;
 
 	m_window = glfwCreateWindow(1280, 720, "Window", nullptr, nullptr);
-
+	m_camera = new Camera();
+	
 	if (!m_window)
 	{
 		glfwTerminate();
@@ -59,15 +60,14 @@ bool Application::Initialise()
 
 	objects[0]->Initialise("soulspear.obj");
 	objects[1]->Initialise("Suzanne.fbx");
-	
-
 
     return true;
 }
 
-void Application::Update()
+void Application::Update(float delta)
 {
-
+	m_camera->Update(delta, m_window);
+	
 }
 
 void Application::Draw()
@@ -96,6 +96,8 @@ void Application::Draw()
 	//bind transform 
 	glm::mat4 pvm = m_projectionMat * m_viewMat * m_quadTransform;
 	m_shader->SetUniform("ProjectionViewModel", pvm);
+
+	m_shader->SetUniform("ModelMatrix", m_quadTransform);
 
 	//draw quad
 	for (int i = 0; i < objects.size(); i++)

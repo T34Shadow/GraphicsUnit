@@ -5,6 +5,7 @@
 
 #include "Mesh.h"
 #include "Graphics.h"
+#include "Camera.h"
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -18,25 +19,36 @@ public:
 	//do rule of three
 
 	bool Initialise();
-	void Update();
+	void Update(float delta);
 	void Draw();
 	bool Shutdown();
 
 	GLFWwindow* m_window;
+	Camera* m_camera;
 	
 	//Gizmo
 	unsigned int gridSize = 10000;
+
+	//matrix
 	glm::mat4 m_viewMat;
 	glm::mat4 m_projectionMat;
 
+	//mesh
 	ShaderProgram* m_shader;
 	std::vector<Mesh*> objects;
 	glm::mat4 m_quadTransform;
 
+
 	//Buffers
 	GLuint vertexBufferID = 0;
 	
+	struct Light
+	{
+		glm::vec3 direction;
+	};
 
+	//lights
+	Light m_light;
 
 
 };

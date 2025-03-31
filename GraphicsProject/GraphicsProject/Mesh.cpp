@@ -35,6 +35,13 @@ void Mesh::InitialiseQuad()
     vertices[4].pos = { 0.5f,0,0.5f,1 };
     vertices[5].pos = { 0.5f,0,-0.5f,1 };
 
+    vertices[0].normal = { 0,1,0,0 };
+    vertices[1].normal = { 0,1,0,0 };
+    vertices[2].normal = { 0,1,0,0 };
+    vertices[3].normal = { 0,1,0,0 };
+    vertices[4].normal = { 0,1,0,0 };
+    vertices[5].normal = { 0,1,0,0 };
+
     //fill vertex buffer
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex), vertices, GL_STATIC_DRAW);
 
@@ -71,6 +78,10 @@ void Mesh::Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned
     // enable first element as position
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+    //enable second element as normal 
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)16);
 
     //bind indices if there are any 
     if (indexCount != 0)
@@ -132,6 +143,7 @@ void Mesh::Initialise(const char* fileName)
     for (int i = 0; i < numV; i++)
     {
         vertices[i].pos = glm::vec4(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z, 1);
+        vertices[i].normal = glm::vec4(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 0);
     }
     Initialise(numV, vertices, indices.size(), indices.data());
     delete[] vertices;
