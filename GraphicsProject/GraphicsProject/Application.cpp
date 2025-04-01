@@ -68,6 +68,7 @@ void Application::Update(float delta)
 {
 	m_camera->Update(delta, m_window);
 	
+	m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
 }
 
 void Application::Draw()
@@ -93,10 +94,14 @@ void Application::Draw()
 	//bind shader 
 	m_shader->Use();
 
+	//bind light 
+	
+
 	//bind transform 
 	glm::mat4 pvm = m_projectionMat * m_viewMat * m_quadTransform;
 	m_shader->SetUniform("ProjectionViewModel", pvm);
 
+	//bind transform for lighting
 	m_shader->SetUniform("ModelMatrix", m_quadTransform);
 
 	//draw quad

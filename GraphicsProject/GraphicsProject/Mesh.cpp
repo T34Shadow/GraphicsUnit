@@ -1,7 +1,9 @@
 #include "Mesh.h"
+
 #include <assimp/scene.h>
 #include <assimp/cimport.h>
-#include <vector>
+
+#include <iostream>
 
 Mesh::~Mesh()
 {
@@ -149,6 +151,18 @@ void Mesh::Initialise(const char* fileName)
     delete[] vertices;
 
 
+}
+
+void Mesh::LoadFromFile(std::string filename)
+{
+}
+
+void Mesh::Equip()
+{
+}
+
+void Mesh::Unequip()
+{
 }
 
 void Mesh::Draw()
