@@ -4,6 +4,7 @@
 #include "Vertex.h"
 
 #include <vector>
+#include <iostream>
 
 class Mesh
 {

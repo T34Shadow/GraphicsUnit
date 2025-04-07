@@ -37,7 +37,7 @@ bool Application::Initialise()
 
 	//create simple mesh
 	//m_quadMesh.InitialiseQuad();
-	Mesh::Vertex vertices[6];
+	Vertex vertices[6];
 	vertices[0].pos = { -0.5f, 0, 0.5f, 1 };
 	vertices[1].pos = { 0.5f, 0, 0.5f, 1 };
 	vertices[2].pos = { -0.5f, 0, -0.5f, 1 };
