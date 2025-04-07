@@ -28,6 +28,7 @@ public:
 	
 	//Gizmo
 	unsigned int gridSize = 10000;
+	Camera mainCamera;
 
 	//matrix
 	glm::mat4 m_viewMat;

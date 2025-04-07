@@ -5,23 +5,20 @@ class Camera
 {
 public:
 
-	Camera() = default;
+	glm::vec3 position;
+	float pitch = 0.0f; //looking up and down
+	float yaw = 0.0f; //looking left and right
+	//float roll = 0.0f; //skewing the camera, let's just not do this
 
-	glm::mat4 GetVeiwMatrix();
-	glm::mat4 GetProjectionMatrix(float w, float h);
+	float aspectRatio = 16.0f / 9.0f;
 
-	glm::vec3 GetFowardVector(float theta, float phi);
-	glm::vec3 GetRightVector(float theta);
-	glm::vec3 GetUpVector() { return glm::vec3(0, 1, 0); }
+	float fov = glm::radians(90.0f);
 
-	void Update(float delta, GLFWwindow* window);
+	void Update(float delta, GLFWwindow* _window);
 
-private:
+	glm::mat4 GetVPMatrix() const;
 
-	void PrintPos();
+	glm::vec3 GetForwardVec() const;
 
-	float m_theta;
-	float m_phi;
-	float m_speed = 0.1f;
-	glm::vec3 m_pos;
+	void PrintPos() ;
 };

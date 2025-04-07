@@ -27,6 +27,14 @@ bool Application::Initialise()
 	glClearColor(0.450f, 0.450f, 0.450f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
+	//Scene stuff (maybe this goes in a scene class later?)
+	
+	glfwSetWindowUserPointer(m_window, &mainCamera);
+
+	//Initialise camera
+	mainCamera.position = glm::vec3(2, 2, 2);
+	mainCamera.pitch = glm::radians(-30.0f);
+
 	//Gizmo
 	unsigned int gridSize = 10000;
 	aie::Gizmos::create(gridSize, gridSize, 0.0f, 0.0f);
@@ -65,9 +73,8 @@ bool Application::Initialise()
 }
 
 void Application::Update(float delta)
-{
-	m_camera->Update(delta, m_window);
-	
+{	
+	mainCamera.Update(delta, m_window);
 	m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
 }
 
@@ -75,6 +82,8 @@ void Application::Draw()
 {
 	//clear screen.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glm::mat4 vpMat = mainCamera.GetVPMatrix();
 
 	aie::Gizmos::clear();
 
@@ -89,7 +98,7 @@ void Application::Draw()
 		aie::Gizmos::addLine(glm::vec3(10.0f, 0.0f, -10.0f + i), glm::vec3(-10.0f, 0.0f, -10.0f + i), i == 10.0f ? white : black);
 	}
 
-	aie::Gizmos::draw(m_projectionMat * m_viewMat);
+	aie::Gizmos::draw(vpMat);
 
 	//bind shader 
 	m_shader->Use();
@@ -98,7 +107,7 @@ void Application::Draw()
 	
 
 	//bind transform 
-	glm::mat4 pvm = m_projectionMat * m_viewMat * m_quadTransform;
+	glm::mat4 pvm = vpMat;
 	m_shader->SetUniform("ProjectionViewModel", pvm);
 
 	//bind transform for lighting
