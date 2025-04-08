@@ -2,6 +2,9 @@
 
 #include "Gizmos.h"
 #include "ShaderProgram.h"
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_glfw.h>
 
 #include "Mesh.h"
 #include "Graphics.h"

@@ -10,15 +10,16 @@ public:
 	float yaw = 0.0f; //looking left and right
 	//float roll = 0.0f; //skewing the camera, let's just not do this
 
-	float aspectRatio = 16.0f / 9.0f;
+	float aspectRatio = 1280.0f / 720.0f;
 
-	float fov = glm::radians(90.0f);
+	float fov = glm::radians(60.0f);
 
 	void Update(float delta, GLFWwindow* _window);
 
 	glm::mat4 GetVPMatrix() const;
 
 	glm::vec3 GetForwardVec() const;
+	glm::vec3 GetRightVec() const;
 
-	void PrintPos() ;
+	void PrintPos() const;
 };

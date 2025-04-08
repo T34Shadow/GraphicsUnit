@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\glm;$(SolutionDir)AssImp/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)\Imgui;$(SolutionDir)\glm;$(SolutionDir)AssImp/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\glm;$(SolutionDir)AssImp/include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)\Imgui;$(SolutionDir)\glm;$(SolutionDir)AssImp/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)\glm;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
@@ -146,6 +146,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Imgui\imgui.cpp" />
+    <ClCompile Include="..\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\Imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\Imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\Imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Gizmos.cpp" />

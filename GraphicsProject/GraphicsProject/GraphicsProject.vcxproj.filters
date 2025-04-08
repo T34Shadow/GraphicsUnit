@@ -16,6 +16,9 @@
     <Filter Include="ThirdParty">
       <UniqueIdentifier>{50e26b81-7c66-43b9-a250-e7fedd3a154d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty\imgui">
+      <UniqueIdentifier>{d6b4e57b-6f22-41b0-b0f5-b3b9df98fa24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,6 +53,27 @@
     </ClCompile>
     <ClCompile Include="MeshInstance.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_demo.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_draw.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_impl_glfw.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_impl_opengl3.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_tables.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_widgets.cpp">
+      <Filter>ThirdParty\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

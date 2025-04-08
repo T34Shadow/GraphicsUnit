@@ -80,9 +80,37 @@ void Application::Update(float delta)
 
 void Application::Draw()
 {
+	//Initialise ImGui of a new frame.
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
 	//clear screen.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//create ImGui objects.
+	
+	//ImGui::ShowDemoWindow();
+	//Controls Window.
+	ImGui::SetNextWindowBgAlpha(0.35f);
+	ImGui::Begin("Camera Controls");
+
+	ImGui::SetWindowPos(ImVec2(10, 10));
+	ImGui::SetWindowSize(ImVec2(160, 202));
+
+	ImGui::Text("Forward: W");
+	ImGui::Text("Backward: S");
+	ImGui::Text("Right: D");
+	ImGui::Text("Left: A");
+	ImGui::Text("Yaw Right: L");
+	ImGui::Text("Yaw Left: J");
+	ImGui::Text("Pitch Up: I");
+	ImGui::Text("Pitch Down: K");
+	ImGui::Text("Upwards: SPACEBAR");
+	ImGui::Text("Downwards: LEFT ALT");
+
+	ImGui::End();
+	
 	glm::mat4 vpMat = mainCamera.GetVPMatrix();
 
 	aie::Gizmos::clear();
@@ -118,6 +146,10 @@ void Application::Draw()
 	{
 		objects[i]->Draw();
 	}
+
+	//Draw the ImGui frames.
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	//swapping the buffers // Show the user the screen data. 
 	glfwSwapBuffers(m_window);
