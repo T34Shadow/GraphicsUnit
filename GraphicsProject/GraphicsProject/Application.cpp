@@ -54,20 +54,19 @@ bool Application::Initialise()
 	vertices[4].pos = { 0.5f, 0, 0.5f, 1 };
 	vertices[5].pos = { 0.5f, 0, -0.5f, 1 };
 
-	objects.resize(10);
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i] = new Mesh;
-	}
+	//Assest loading;
+	Mesh soulSpearMesh;
+	soulSpearMesh.Initialise("soulspear");
+	//add textures
 
-	m_quadTransform = {
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1 };
+	//Initialise scene objcets
+	MeshInstance spear;
+	spear.mesh = &soulSpearMesh;
+	//spear.texture = nullptr;
+	spear.shader = m_shader;
 
-	objects[0]->Initialise("soulspear.obj");
-	objects[1]->Initialise("Suzanne.fbx");
+	spear.position = glm::vec3(0, 0, 0);
+	objects.push_back(spear);
 
     return true;
 }
@@ -98,10 +97,10 @@ void Application::Draw()
 	ImGui::SetWindowPos(ImVec2(10, 10));
 	ImGui::SetWindowSize(ImVec2(160, 202));
 
-	ImGui::Text("Forward: W");
-	ImGui::Text("Backward: S");
-	ImGui::Text("Right: D");
-	ImGui::Text("Left: A");
+	ImGui::Text("Forwards: W");
+	ImGui::Text("Backwards: S");
+	ImGui::Text("Move Right: D");
+	ImGui::Text("Move Left: A");
 	ImGui::Text("Yaw Right: L");
 	ImGui::Text("Yaw Left: J");
 	ImGui::Text("Pitch Up: I");
@@ -141,10 +140,10 @@ void Application::Draw()
 	//bind transform for lighting
 	m_shader->SetUniform("ModelMatrix", m_quadTransform);
 
-	//draw quad
-	for (int i = 0; i < objects.size(); i++)
+	//draw objects
+	for (MeshInstance& object : objects)
 	{
-		objects[i]->Draw();
+		object.Draw(vpMat);
 	}
 
 	//Draw the ImGui frames.

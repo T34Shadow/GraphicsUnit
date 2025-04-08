@@ -2,7 +2,7 @@
 
 #include "Graphics.h"
 #include <string>
-class ShaderPrgram;
+class ShaderProgram;
 
 class Texture
 {
@@ -16,6 +16,6 @@ public:
 	Texture& operator=(const Texture& other) = delete;
 
 	void LoadFromFile(std::string filename);
-	void Bind(std::string name, ShaderPrgram* shader, int textureUnit = 0) const;
+	void Bind(std::string name, ShaderProgram* shader, int textureUnit = 0) const;
 
 };

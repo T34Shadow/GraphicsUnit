@@ -27,6 +27,11 @@ void Texture::LoadFromFile(std::string filename)
 	stbi_image_free(pixelData);
 }
 
-void Texture::Bind(std::string name, ShaderPrgram* shader, int textureUnit) const
+void Texture::Bind(std::string name, ShaderProgram* shader, int textureUnit) const
 {
+	
+	shader->SetUniform(name, textureUnit);
+	glActiveTexture(GL_TEXTURE0 + textureUnit);
+	glBindTexture(GL_TEXTURE_2D, texID);
 }
+

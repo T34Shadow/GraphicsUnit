@@ -67,7 +67,7 @@ void Camera::Update(float delta, GLFWwindow* _window)
 
 glm::mat4 Camera::GetVPMatrix() const
 {
-	glm::mat4 projectionMat = glm::perspective(fov, aspectRatio, 0.3f, 20.0f);
+	glm::mat4 projectionMat = glm::perspective(fov, aspectRatio, 0.03f, 2000.0f);
 
 	glm::mat4 viewMat(1);
 	viewMat = glm::translate(viewMat, position);

@@ -7,6 +7,7 @@
 #include <imgui_impl_glfw.h>
 
 #include "Mesh.h"
+#include "MeshInstance.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include <iostream>
@@ -39,9 +40,8 @@ public:
 
 	//mesh
 	ShaderProgram* m_shader;
-	std::vector<Mesh*> objects;
+	std::vector<MeshInstance> objects;
 	glm::mat4 m_quadTransform;
-
 
 	//Buffers
 	GLuint vertexBufferID = 0;

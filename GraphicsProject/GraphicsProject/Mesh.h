@@ -25,7 +25,6 @@ public:
 	Mesh& operator=(const Mesh& other) = delete;
 
 	void Initialise(const char* fileName);
-	void LoadFromFile(std::string filename);
 
 	void Equip();
 	void Unequip();
