@@ -103,13 +103,6 @@ void ShaderProgram::Use()
 	glUseProgram(shaderProgram);
 }
 
-//void ShaderProgram::SetFloatUniform(std::string varName, float value)
-//{
-//	GLint varLoc = glGetUniformLocation(shaderProgram, varName.c_str());
-//
-//	glUniform1f(varLoc, value);
-//}
-
 void ShaderProgram::SetUniform(std::string varName, glm::mat4& value)
 {
 	GLint varLoc = glGetUniformLocation(shaderProgram, varName.c_str());

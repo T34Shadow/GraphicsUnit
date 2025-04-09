@@ -32,66 +32,82 @@ bool Application::Initialise()
 	glfwSetWindowUserPointer(m_window, &mainCamera);
 
 	//Initialise camera
-	mainCamera.position = glm::vec3(2, 2, 2);
+	mainCamera.position = glm::vec3(0, 10, 10);
 	mainCamera.pitch = glm::radians(-30.0f);
 
 	//Gizmo
 	unsigned int gridSize = 10000;
 	aie::Gizmos::create(gridSize, gridSize, 0.0f, 0.0f);
 
-	//create simple camera transforms 
-	m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
-
-	//create simple mesh
-	//m_quadMesh.InitialiseQuad();
-	Vertex vertices[6];
-	vertices[0].pos = { -0.5f, 0, 0.5f, 1 };
-	vertices[1].pos = { 0.5f, 0, 0.5f, 1 };
-	vertices[2].pos = { -0.5f, 0, -0.5f, 1 };
-				   
-	vertices[3].pos = { -0.5f, 0, -0.5f, 1 };
-	vertices[4].pos = { 0.5f, 0, 0.5f, 1 };
-	vertices[5].pos = { 0.5f, 0, -0.5f, 1 };
+	////create simple camera transforms 
+	//m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	//Assest loading;
-	Mesh soulSpearMesh;
-	soulSpearMesh.Initialise("soulspear");
+
+	//SoulSpear
+	Mesh* soulSpearMesh = new Mesh();
+	soulSpearMesh->Initialise("soulspear.obj");
 	//add textures
-	Texture spearDiffuse;
-	Texture spearNormal;
-	Texture spearSpecular;
-	spearDiffuse.LoadFromFile("soulspear_diffuse");
-	spearDiffuse.LoadFromFile("soulspear_normal");
-	spearDiffuse.LoadFromFile("soulspear_specular");
+	Texture* spearDiffuse = new Texture();
+	Texture* spearNormal = new Texture();
+	Texture* spearSpecular = new Texture();
+	spearDiffuse->LoadFromFile("soulspear_diffuse.tga");
+	spearNormal->LoadFromFile("soulspear_normal.tga");
+	spearSpecular->LoadFromFile("soulspear_specular.tga");
+
+	//Suzanne
+	Mesh* suzanneMesh = new Mesh();
+	suzanneMesh->Initialise("Suzanne.fbx");
+	//add textures
+	Texture* suzanneDiffuse = new Texture();
+	suzanneDiffuse->LoadFromFile("SuzanneTestTex.png");
+
 
 	//Initialise scene objcets
 	MeshInstance spear;
-	spear.mesh = &soulSpearMesh;
-	spear.texture = &spearDiffuse;
+	spear.mesh = soulSpearMesh;
+	spear.texture = spearDiffuse;
 	spear.shader = m_shader;
 
+	MeshInstance monkey;
+	monkey.mesh = suzanneMesh;
+	monkey.texture = suzanneDiffuse;
+	monkey.shader = m_shader;
+
 	spear.position = glm::vec3(0, 0, 0);
+	monkey.position = glm::vec3(10, 10, 10);
+
+	objects.push_back(monkey);
 	objects.push_back(spear);
 
+	m_quadTransform = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
+	m_light.direction = glm::vec3(1, 1, 0);
     return true;
 }
 
 void Application::Update(float delta)
 {	
 	mainCamera.Update(delta, m_window);
-	m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
+	//m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
 }
 
 void Application::Draw()
 {
+	//clear screen.
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	//Initialise ImGui of a new frame.
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	//clear screen.
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//create ImGui objects.
 	
@@ -145,11 +161,11 @@ void Application::Draw()
 
 	//bind transform for lighting
 	m_shader->SetUniform("ModelMatrix", m_quadTransform);
-
+	
 	//draw objects
-	for (MeshInstance& object : objects)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		object.Draw(vpMat);
+		objects[i].Draw(vpMat);
 	}
 
 	//Draw the ImGui frames.
@@ -158,7 +174,7 @@ void Application::Draw()
 
 	//swapping the buffers // Show the user the screen data. 
 	glfwSwapBuffers(m_window);
-	//Tell GLFW ti check if anything is going on with the input.
+	//Tell GLFW to check if anything is going on with the input.
 	glfwPollEvents();
 	
 }

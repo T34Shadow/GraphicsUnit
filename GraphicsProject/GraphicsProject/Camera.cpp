@@ -73,13 +73,11 @@ glm::mat4 Camera::GetVPMatrix() const
 	viewMat = glm::translate(viewMat, position);
 
 	viewMat = glm::rotate(viewMat, yaw, glm::vec3(0, 1, 0));
-	viewMat = glm::rotate(viewMat, pitch, glm::vec3(1, 0, 0));
-
+	viewMat = glm::rotate(viewMat, pitch, glm::vec3(1, 0, 0));	
 
 	viewMat = glm::inverse(viewMat);
 
 	return projectionMat * viewMat;
-
 }
 
 glm::vec3 Camera::GetForwardVec() const

@@ -24,17 +24,17 @@ public:
 	Mesh(const Mesh& other) = delete;
 	Mesh& operator=(const Mesh& other) = delete;
 
-	void Initialise(const char* fileName);
+	void Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount = 0, unsigned int* indices = nullptr);
+	void Initialise(std::string fileName);
 
 	void Equip();
 	void Unequip();
 	virtual void Draw();
 
+
 	//TEMP
 public:
-
 	void InitialiseQuad();
-	void Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount = 0, unsigned int* indices = nullptr);
 
 
 };

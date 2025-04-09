@@ -118,10 +118,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Working\simpleShader.vert">
+    <None Include="..\Working\simpleShader.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\Working\simpleShader.frag">
+    <None Include="..\Working\simpleShader.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
