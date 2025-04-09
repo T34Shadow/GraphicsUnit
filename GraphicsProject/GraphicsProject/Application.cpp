@@ -69,17 +69,31 @@ bool Application::Initialise()
 	spear.mesh = soulSpearMesh;
 	spear.texture = spearDiffuse;
 	spear.shader = m_shader;
+	spear.position = glm::vec3(-5, 0, 0);
+
+	MeshInstance spear02;
+	spear02.mesh = soulSpearMesh;
+	spear02.texture = spearDiffuse;
+	spear02.shader = m_shader;
+	spear02.position = glm::vec3(10, 0, 0);
 
 	MeshInstance monkey;
 	monkey.mesh = suzanneMesh;
 	monkey.texture = suzanneDiffuse;
 	monkey.shader = m_shader;
+	monkey.position = glm::vec3(5, 0, 0);
 
-	spear.position = glm::vec3(0, 0, 0);
-	monkey.position = glm::vec3(0, 0, 0);
+	MeshInstance monkey02;
+	monkey02.mesh = suzanneMesh;
+	monkey02.texture = suzanneDiffuse;
+	monkey02.shader = m_shader;
+	monkey02.position = glm::vec3(-10, 0, 0);
 
-	//objects.push_back(monkey);
-	//objects.push_back(spear);	
+
+	objects.push_back(spear);	
+	objects.push_back(spear02);	
+	objects.push_back(monkey);
+	objects.push_back(monkey02);
 
 	m_light.direction = glm::vec3(1, 1, 0);
     return true;
