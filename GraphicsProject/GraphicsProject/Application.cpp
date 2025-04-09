@@ -76,10 +76,10 @@ bool Application::Initialise()
 	monkey.shader = m_shader;
 
 	spear.position = glm::vec3(0, 0, 0);
-	monkey.position = glm::vec3(10, 10, 10);
+	monkey.position = glm::vec3(0, 0, 0);
 
-	objects.push_back(monkey);
-	objects.push_back(spear);	
+	//objects.push_back(monkey);
+	//objects.push_back(spear);	
 
 	m_light.direction = glm::vec3(1, 1, 0);
     return true;
