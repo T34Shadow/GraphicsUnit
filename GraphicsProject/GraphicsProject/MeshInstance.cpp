@@ -23,8 +23,8 @@ void MeshInstance::Draw(glm::mat4 viewpMatrix) const
 
 	glm::mat4 mvpMat = viewpMatrix * modelMat;
 
-	shader->SetUniform("mvpMat", mvpMat);
-	shader->SetUniform("modelMat", modelMat);
+	shader->SetUniform("ProjectionViewModel", mvpMat);
+	shader->SetUniform("ModelMatrix", modelMat);
 
 	mesh->Draw();
 

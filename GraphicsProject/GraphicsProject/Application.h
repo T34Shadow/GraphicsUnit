@@ -42,7 +42,13 @@ public:
 	//mesh
 	ShaderProgram* m_shader;
 	std::vector<MeshInstance> objects;
-	glm::mat4 m_quadTransform;
+
+	glm::mat4 m_identityMatrix = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
 
 	//Buffers
 	GLuint vertexBufferID = 0;

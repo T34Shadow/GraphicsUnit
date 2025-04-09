@@ -79,14 +79,7 @@ bool Application::Initialise()
 	monkey.position = glm::vec3(10, 10, 10);
 
 	objects.push_back(monkey);
-	objects.push_back(spear);
-
-	m_quadTransform = {
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};
+	objects.push_back(spear);	
 
 	m_light.direction = glm::vec3(1, 1, 0);
     return true;
@@ -95,7 +88,7 @@ bool Application::Initialise()
 void Application::Update(float delta)
 {	
 	mainCamera.Update(delta, m_window);
-	//m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
+	m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
 }
 
 void Application::Draw()
@@ -107,7 +100,6 @@ void Application::Draw()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-
 
 	//create ImGui objects.
 	
@@ -147,7 +139,6 @@ void Application::Draw()
 		aie::Gizmos::addLine(glm::vec3(10.0f, 0.0f, -10.0f + i), glm::vec3(-10.0f, 0.0f, -10.0f + i), i == 10.0f ? white : black);
 	}
 
-	aie::Gizmos::draw(vpMat);
 
 	//bind shader 
 	m_shader->Use();
@@ -156,17 +147,17 @@ void Application::Draw()
 	
 
 	//bind transform 
-	glm::mat4 pvm = vpMat;
-	m_shader->SetUniform("ProjectionViewModel", pvm);
+	m_shader->SetUniform("ProjectionViewModel", vpMat);
 
 	//bind transform for lighting
-	m_shader->SetUniform("ModelMatrix", m_quadTransform);
+	m_shader->SetUniform("ModelMatrix", m_identityMatrix);
 	
 	//draw objects
 	for (int i = 0; i < objects.size(); i++)
 	{
 		objects[i].Draw(vpMat);
 	}
+	aie::Gizmos::draw(vpMat);
 
 	//Draw the ImGui frames.
 	ImGui::Render();
