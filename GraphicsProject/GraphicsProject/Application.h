@@ -8,6 +8,7 @@
 
 #include "Mesh.h"
 #include "MeshInstance.h"
+#include "Texture.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include <iostream>

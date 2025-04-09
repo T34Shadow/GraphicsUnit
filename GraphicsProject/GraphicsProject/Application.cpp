@@ -58,11 +58,17 @@ bool Application::Initialise()
 	Mesh soulSpearMesh;
 	soulSpearMesh.Initialise("soulspear");
 	//add textures
+	Texture spearDiffuse;
+	Texture spearNormal;
+	Texture spearSpecular;
+	spearDiffuse.LoadFromFile("soulspear_diffuse");
+	spearDiffuse.LoadFromFile("soulspear_normal");
+	spearDiffuse.LoadFromFile("soulspear_specular");
 
 	//Initialise scene objcets
 	MeshInstance spear;
 	spear.mesh = &soulSpearMesh;
-	//spear.texture = nullptr;
+	spear.texture = &spearDiffuse;
 	spear.shader = m_shader;
 
 	spear.position = glm::vec3(0, 0, 0);

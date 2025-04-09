@@ -397,3 +397,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+GraphicsProject/AssImp/lib/assimp-vc143-mtd.lib
