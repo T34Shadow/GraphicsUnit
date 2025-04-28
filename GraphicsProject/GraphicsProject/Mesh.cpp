@@ -1,11 +1,14 @@
 #include "Mesh.h"
 
+#include "ShaderProgram.h"
 #include <assimp/scene.h>
 #include <assimp/cimport.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 Mesh::~Mesh()
 {
@@ -113,7 +116,7 @@ void Mesh::Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Mesh::Initialise(std::string fileName)
+void Mesh::InitialiseFromFile(std::string fileName)
 {
     Assimp::Importer importer;
 
@@ -166,6 +169,14 @@ void Mesh::Initialise(std::string fileName)
                 vertices[i].pos = glm::vec4(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z, 1);
                 vertices[i].normal = glm::vec4(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 0);
                 //TODO: IF(HASUVS()) GET UVS OTHERWISE VEC2(0,0)
+                if (mesh->mTextureCoords[0])
+                {
+                    vertices[i].uv = glm::vec2(mesh->mTextureCoords[0][i].x, 1.0f - mesh->mTextureCoords[0][i].y);
+                }
+                else
+                {
+                    vertices[i].uv = glm::vec2(0);
+                }
             }
             Initialise(numV, vertices, indices.size(), indices.data());
             delete[] vertices;
@@ -173,30 +184,57 @@ void Mesh::Initialise(std::string fileName)
     }
 }
 
+void Mesh::ApplyMat(ShaderProgram* shader)
+{
+    shader->SetUniform("Ka", Ka);
+    shader->SetUniform("Kd", Kd);
+    shader->SetUniform("Ks", Ks);
+    shader->SetUniform("specularPower", specularPower);
+}
+
+void Mesh::LoadMat(const char* fileName)
+{
+    std::fstream file(fileName, std::ios::in);
+    std::string line;
+    std::string header;
+    char buffer[256];
+    while (!file.eof())
+    {
+        file.getline(buffer, 256);
+        line = buffer;
+        std::stringstream ss(line, std::stringstream::in | std::stringstream::out);
+
+        if (line.find("Ka") == 0)
+        {
+            ss >> header >> Ka.x >> Ka.y >> Ka.z;
+        }
+        else if (line.find("Ks") == 0)
+        {
+            ss >> header >> Ks.x >> Ks.y >> Ks.z;
+        }
+        else if (line.find("Kd") == 0)
+        {
+            ss >> header >> Kd.x >> Kd.y >> Kd.z;
+        }
+        else if (line.find("Ns") == 0)
+        {
+            ss >> header >> specularPower;
+        }
+    }
+}
+
 void Mesh::Equip()
 {
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(offsetof(Vertex, pos)));
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(offsetof(Vertex, normal)));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)(offsetof(Vertex, uv)));
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(vertexArrayObject);
 }
 
 void Mesh::Unequip()
 {
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    glBindVertexArray(0);
 }
 
 void Mesh::Draw()
 {
-    glBindVertexArray(vertexArrayObject);
     if(indexBufferObject !=0)
     {
         glDrawElements(GL_TRIANGLES, 3 * triCount, GL_UNSIGNED_INT, 0);

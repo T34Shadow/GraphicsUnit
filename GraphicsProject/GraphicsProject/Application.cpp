@@ -46,36 +46,46 @@ bool Application::Initialise()
 	//Assest loading;
 
 	//SoulSpear
-	Mesh* soulSpearMesh = new Mesh();
-	soulSpearMesh->Initialise("soulspear.obj");
+	
+	soulSpearMesh->InitialiseFromFile("soulspear.obj");
+
+	//load materials
+	soulSpearMesh->LoadMat("soulspear.mtl");
+
 	//add textures
 	Texture* spearDiffuse = new Texture();
 	Texture* spearNormal = new Texture();
 	Texture* spearSpecular = new Texture();
+
 	spearDiffuse->LoadFromFile("soulspear_diffuse.tga");
 	spearNormal->LoadFromFile("soulspear_normal.tga");
 	spearSpecular->LoadFromFile("soulspear_specular.tga");
 
 	//Suzanne
 	Mesh* suzanneMesh = new Mesh();
-	suzanneMesh->Initialise("Suzanne.fbx");
+	suzanneMesh->InitialiseFromFile("Suzanne.fbx");
 	//add textures
 	Texture* suzanneDiffuse = new Texture();
 	suzanneDiffuse->LoadFromFile("SuzanneTestTex.png");
-
 
 	//Initialise scene objcets
 	MeshInstance spear;
 	spear.mesh = soulSpearMesh;
 	spear.texture = spearDiffuse;
 	spear.shader = m_shader;
-	spear.position = glm::vec3(-5, 0, 0);
+	spear.position = glm::vec3(-10, 0, 0);
 
 	MeshInstance spear02;
 	spear02.mesh = soulSpearMesh;
 	spear02.texture = spearDiffuse;
 	spear02.shader = m_shader;
 	spear02.position = glm::vec3(10, 0, 0);
+
+	MeshInstance spear03;
+	spear03.mesh = soulSpearMesh;
+	spear03.texture = spearDiffuse;
+	spear03.shader = m_shader;
+	spear03.position = glm::vec3(0, 0, 0);
 
 	MeshInstance monkey;
 	monkey.mesh = suzanneMesh;
@@ -87,22 +97,28 @@ bool Application::Initialise()
 	monkey02.mesh = suzanneMesh;
 	monkey02.texture = suzanneDiffuse;
 	monkey02.shader = m_shader;
-	monkey02.position = glm::vec3(-10, 0, 0);
-
+	monkey02.position = glm::vec3(-5, 0, 0);
 
 	objects.push_back(spear);	
 	objects.push_back(spear02);	
+	objects.push_back(spear03);	
 	objects.push_back(monkey);
 	objects.push_back(monkey02);
 
-	m_light.direction = glm::vec3(1, 1, 0);
+	//Directional light
+	m_directionalLight.direction = glm::vec3(1, 1, 0);
+	m_directionalLight.rotationSpeed = 0.5;
+	m_directionalLight.colour = { 1,1,1 };
+
+	//Ambient light
+	m_ambientLight = { 0.25, 0.25, 0.25 };
     return true;
 }
 
 void Application::Update(float delta)
 {	
 	mainCamera.Update(delta, m_window);
-	m_light.direction = glm::normalize(glm::vec3(glm::cos(delta * 2), glm::sin(delta * 2), 0));
+	m_directionalLight.direction = glm::normalize(glm::vec3(glm::cos(delta * m_directionalLight.rotationSpeed), glm::sin(delta * m_directionalLight.rotationSpeed), 0));
 }
 
 void Application::Draw()
@@ -158,8 +174,13 @@ void Application::Draw()
 	m_shader->Use();
 
 	//bind light 
-	
+	m_shader->SetUniform("AmbientColour", m_ambientLight);
+	m_shader->SetUniform("LightColour", m_directionalLight.colour);
+	m_shader->SetUniform("LightDirection", m_directionalLight.direction);
 
+	//bind mats 
+	soulSpearMesh->ApplyMat(m_shader);
+	
 	//bind transform 
 	m_shader->SetUniform("ProjectionViewModel", vpMat);
 

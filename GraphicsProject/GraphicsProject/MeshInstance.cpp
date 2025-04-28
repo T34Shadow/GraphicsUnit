@@ -4,14 +4,15 @@
 #include "Texture.h"
 #include "Mesh.h"
 
-
 #include "glm.hpp"
 #include "ext/matrix_transform.hpp"
 #include "ext/matrix_clip_space.hpp"
 
 void MeshInstance::Draw(glm::mat4 viewpMatrix) const
-{
-	//mesh->Equip();
+{	
+	shader->Use();
+	mesh->Equip();
+
 	texture->Bind("albedoMap", shader);
 
 	glm::mat4 modelMat = glm::scale(glm::mat4(1), scale);
@@ -28,9 +29,6 @@ void MeshInstance::Draw(glm::mat4 viewpMatrix) const
 
 	mesh->Draw();
 
-	//mesh->Unequip();
-	
-	//when both equip and unequip dont get called things work as expected without lighting. 
-	//when both are being called bad behavour happens.
+	mesh->Unequip();
 	
 }

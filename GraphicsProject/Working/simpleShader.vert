@@ -12,6 +12,7 @@ uniform mat4 ProjectionViewModel;
 //we need this matrix transform the normal
 uniform mat4 ModelMatrix;
 
+out vec4 vPosition;
 out vec3 vNormal;
 out vec2 uvs;
 
@@ -19,6 +20,7 @@ out vec2 uvs;
 void main()
 {
 	uvs = UVs;
+	vPosition = ModelMatrix * pos;
 	vNormal = (ModelMatrix * Normal).xyz; 
 	gl_Position = ProjectionViewModel * pos;
 }

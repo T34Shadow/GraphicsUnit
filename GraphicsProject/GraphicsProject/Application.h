@@ -42,6 +42,7 @@ public:
 	//mesh
 	ShaderProgram* m_shader;
 	std::vector<MeshInstance> objects;
+	Mesh* soulSpearMesh = new Mesh();
 
 	glm::mat4 m_identityMatrix = {
 		1,0,0,0,
@@ -56,10 +57,12 @@ public:
 	struct Light
 	{
 		glm::vec3 direction;
+		float rotationSpeed;
+		glm::vec3 colour;
 	};
 
 	//lights
-	Light m_light;
-
+	Light m_directionalLight;
+	glm::vec3 m_ambientLight;
 
 };
