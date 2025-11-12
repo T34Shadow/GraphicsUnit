@@ -72,6 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)\Imgui;$(SolutionDir)\glm;$(SolutionDir)AssImp/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(Solution)Assimp/lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(CommonExecutablePath);$(VC_ExecutablePath_x64);$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)\Imgui;$(SolutionDir)\glm;$(SolutionDir)AssImp/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
