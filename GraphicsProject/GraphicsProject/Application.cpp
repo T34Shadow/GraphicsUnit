@@ -4,7 +4,7 @@ bool Application::Initialise()
 {
 	if (!glfwInit()) return false;
 
-	m_window = glfwCreateWindow(1280, 720, "Window", nullptr, nullptr);
+	m_window = glfwCreateWindow(1280, 720, "TestingPlatform", nullptr, nullptr);
 	m_camera = new Camera();
 	
 	if (!m_window)
@@ -39,9 +39,9 @@ bool Application::Initialise()
 	unsigned int gridSize = 10000;
 	aie::Gizmos::create(gridSize, gridSize, 0.0f, 0.0f);
 
-	////create simple camera transforms 
-	//m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	//create simple camera transforms 
+	m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	//Assest loading;
 
@@ -132,8 +132,8 @@ void Application::Draw()
 	ImGui::NewFrame();
 
 	//create ImGui objects.
+	ImGui::ShowDemoWindow();
 	
-	//ImGui::ShowDemoWindow();
 	//Controls Window.
 	ImGui::SetNextWindowBgAlpha(0.35f);
 	ImGui::Begin("Camera Controls");
