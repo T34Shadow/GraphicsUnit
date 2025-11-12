@@ -131,5 +131,17 @@ void ShaderProgram::SetUniform(std::string varName, glm::vec3& value)
 	glUniform3f(varLoc, value.x,value.y,value.z);
 }
 
+bool ShaderProgram::SetBoolUniform(std::string varName, const int& slot)
+{
+	GLint varLoc = glGetUniformLocation(shaderProgram, varName.c_str());
+	if (varLoc < 0)
+	{
+		return false;
+	}
+	glUniform1i(varLoc, slot);
+	return true;
+
+}
+
 
 

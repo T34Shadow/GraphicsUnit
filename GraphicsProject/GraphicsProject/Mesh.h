@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "Vertex.h"
+#include "Texture.h"
 
 #include <vector>
 #include <iostream>
@@ -23,6 +24,12 @@ private:
 	glm::vec3 Ks; // specular colour of the surface;
 	float specularPower; // tightness of specualr highlights;
 
+	Texture mapKd;
+	Texture mapKs;
+	Texture mapNormal;
+
+
+
 public:
 
 	Mesh() : triCount(0), vertexArrayObject(0), vertexBufferObject(0), indexBufferObject(0){}
@@ -34,13 +41,15 @@ public:
 	void Initialise(unsigned int vertexCount, const Vertex* vertices, unsigned int indexCount = 0, unsigned int* indices = nullptr);
 	void InitialiseFromFile(std::string fileName);
 
+	void CalTangents(Vertex* vertices, unsigned int vertexCount, const std::vector<unsigned int>& indices);
+
 	void ApplyMat(ShaderProgram* shader);
 	void LoadMat(const char* fileName);
 
 	void Equip();
 	void Unequip();
 	virtual void Draw();
-
+	
 
 	//TEMP
 public:

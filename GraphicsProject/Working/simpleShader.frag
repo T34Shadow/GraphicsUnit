@@ -40,10 +40,11 @@ void main()
 	float specularTerm = pow(max(0,dot(R,V)),specularPower);
 
 	//cal diffuse 
-	vec3 diffuse = LightColour * Kd * lambertTerm;
-	vec3 ambient = AmbientColour * Ka;
+	vec3 ambient = AmbientColour * Ka * albedo;
+	vec3 diffuse = LightColour * Kd * lambertTerm * albedo;
 	vec3 specular = LightColour * Ks * specularTerm;
 
 	//output lambert as grayscale 
 	FragColour = vec4( ambient + diffuse + specular, 1);
+	//FragColour = vec4(N, 1);
 }

@@ -40,8 +40,8 @@ bool Application::Initialise()
 	aie::Gizmos::create(gridSize, gridSize, 0.0f, 0.0f);
 
 	//create simple camera transforms 
-	m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
+	//m_viewMat = glm::lookAt(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_projectionMat = glm::perspective(glm::pi<float>() * 0.25f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 	//Assest loading;
 
@@ -92,12 +92,14 @@ bool Application::Initialise()
 	monkey.texture = suzanneDiffuse;
 	monkey.shader = m_shader;
 	monkey.position = glm::vec3(5, 0, 0);
+	monkey.rotation = glm::vec3(180, 0, 0);
 
 	MeshInstance monkey02;
 	monkey02.mesh = suzanneMesh;
 	monkey02.texture = suzanneDiffuse;
 	monkey02.shader = m_shader;
 	monkey02.position = glm::vec3(-5, 0, 0);
+	monkey02.rotation = glm::vec3(180, 0, 0);
 
 	objects.push_back(spear);	
 	objects.push_back(spear02);	
@@ -132,7 +134,7 @@ void Application::Draw()
 	ImGui::NewFrame();
 
 	//create ImGui objects.
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 	
 	//Controls Window.
 	ImGui::SetNextWindowBgAlpha(0.35f);

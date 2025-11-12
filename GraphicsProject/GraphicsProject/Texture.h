@@ -9,6 +9,9 @@ class Texture
 	GLuint texID = 0;
 
 public:
+	unsigned int m_glHandle =0;
+
+public:
 
 	Texture() = default;
 	~Texture();
@@ -17,5 +20,6 @@ public:
 
 	void LoadFromFile(std::string filename);
 	void Bind(std::string name, ShaderProgram* shader, int textureUnit = 0) const;
+	void Bind(unsigned int slot) const;
 
 };

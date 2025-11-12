@@ -12,7 +12,6 @@ void MeshInstance::Draw(glm::mat4 viewpMatrix) const
 {	
 	shader->Use();
 	mesh->Equip();
-
 	texture->Bind("albedoMap", shader);
 
 	glm::mat4 modelMat = glm::scale(glm::mat4(1), scale);

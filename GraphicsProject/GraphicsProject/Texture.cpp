@@ -7,6 +7,7 @@
 
 Texture::~Texture()
 {
+	glDeleteTextures(1, &texID);
 }
 
 void Texture::LoadFromFile(std::string filename)
@@ -33,5 +34,11 @@ void Texture::Bind(std::string name, ShaderProgram* shader, int textureUnit) con
 	shader->SetUniform(name, textureUnit);
 	glActiveTexture(GL_TEXTURE0 + textureUnit);
 	glBindTexture(GL_TEXTURE_2D, texID);
+}
+
+void Texture::Bind(unsigned int slot) const
+{
+	glActiveTexture(GL_TEXTURE0 + slot);
+	glBindTexture(GL_TEXTURE_2D, m_glHandle);
 }
 

@@ -28,4 +28,5 @@ public:
 	void SetUniform(std::string varName, float& value);
 	void SetUniform(std::string varName, int& value);
 	void SetUniform(std::string varName, glm::vec3& value);
+	bool SetBoolUniform(std::string varName, const int& slot);
 };
