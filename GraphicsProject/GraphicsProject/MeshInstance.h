@@ -14,7 +14,9 @@ public:
 	glm::vec3 scale{ 1 };
 
 	Mesh* mesh = nullptr;
-	Texture* texture = nullptr;
+	Texture* diffuseTex = nullptr;
+	Texture* normalTex = nullptr;
+	Texture* specularTex = nullptr;
 	ShaderProgram* shader = nullptr;
 
 	void Draw(glm::mat4 viewpMatrix) const;

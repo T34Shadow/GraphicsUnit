@@ -188,6 +188,7 @@ void Mesh::InitialiseFromFile(std::string fileName)
                 if (mesh->HasTangentsAndBitangents())
                 {
                     vertices[i].tangent = glm::vec4(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z, 1);
+                    vertices[i].biTangent = glm::vec4(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z, 1);
                 }
             }
             if (!mesh->HasTangentsAndBitangents())
@@ -257,12 +258,13 @@ void Mesh::ApplyMat(ShaderProgram* shader)
     shader->SetUniform("Kd", Kd);
     shader->SetUniform("Ks", Ks);
     shader->SetUniform("specularPower", specularPower);
-    
+ 
     mapKd.Bind(0);
-    const int& temp = 0;
-    shader->SetBoolUniform("albedoMap", temp);
-     
-    
+    shader->SetBoolUniform("albedoMap", 0);
+    mapNormal.Bind(1);
+    shader->SetBoolUniform("normalMap", 1);
+    mapKs.Bind(2);
+    shader->SetBoolUniform("specularMap", 2);    
 }
 
 void Mesh::LoadMat(const char* fileName)
@@ -306,6 +308,18 @@ void Mesh::LoadMat(const char* fileName)
             std::string mapFileName;
             ss >> header >> mapFileName;
             mapKd.LoadFromFile((directory + mapFileName).c_str());
+        }
+        else if (line.find("map_Ks") == 0)
+        {
+            std::string mapFileName;
+            ss >> header >> mapFileName;
+            mapKs.LoadFromFile((directory + mapFileName).c_str());
+        }
+        else if (line.find("bump") == 0)
+        {
+            std::string mapFileName;
+            ss >> header >> mapFileName;
+            mapNormal.LoadFromFile((directory + mapFileName).c_str());
         }
     }
 }

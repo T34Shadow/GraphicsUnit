@@ -14,6 +14,7 @@ public:
 public:
 
 	Texture() = default;
+	Texture(GLuint _texID) { texID = _texID; m_glHandle = _texID; }
 	~Texture();
 	Texture(const Texture& other) = delete;
 	Texture& operator=(const Texture& other) = delete;

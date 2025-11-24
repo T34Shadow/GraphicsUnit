@@ -30,6 +30,8 @@ public:
 
 	GLFWwindow* m_window;
 	Camera* m_camera;
+	glm::vec3 lightDirection;
+	glm::vec3 lightDirection02;
 	
 	//Gizmo
 	unsigned int gridSize = 10000;
@@ -63,6 +65,6 @@ public:
 
 	//lights
 	Light m_directionalLight;
-	glm::vec3 m_ambientLight;
+	Light m_directionalLight02;
 
 };

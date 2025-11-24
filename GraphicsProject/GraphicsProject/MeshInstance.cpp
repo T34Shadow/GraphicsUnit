@@ -12,7 +12,12 @@ void MeshInstance::Draw(glm::mat4 viewpMatrix) const
 {	
 	shader->Use();
 	mesh->Equip();
-	texture->Bind("albedoMap", shader);
+
+	mesh->ApplyMat(shader);
+	diffuseTex->Bind("albedoMap", shader, 0);
+	normalTex->Bind("normalMap", shader, 1);
+	specularTex->Bind("specularTex", shader, 2);
+
 
 	glm::mat4 modelMat = glm::scale(glm::mat4(1), scale);
 	modelMat = glm::rotate(modelMat, rotation.x, glm::vec3(1, 0, 0));
@@ -25,6 +30,7 @@ void MeshInstance::Draw(glm::mat4 viewpMatrix) const
 
 	shader->SetUniform("ProjectionViewModel", mvpMat);
 	shader->SetUniform("ModelMatrix", modelMat);
+
 
 	mesh->Draw();
 

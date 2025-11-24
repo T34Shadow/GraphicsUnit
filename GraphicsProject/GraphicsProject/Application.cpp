@@ -49,78 +49,118 @@ bool Application::Initialise()
 	
 	soulSpearMesh->InitialiseFromFile("soulspear.obj");
 
+
 	//load materials
 	soulSpearMesh->LoadMat("soulspear.mtl");
-
 	//add textures
-	Texture* spearDiffuse = new Texture();
-	Texture* spearNormal = new Texture();
-	Texture* spearSpecular = new Texture();
+	Texture* spearDiffuse = new Texture(0);
+	Texture* spearNormal = new Texture(1);
+	Texture* spearSpecular = new Texture(2);
 
 	spearDiffuse->LoadFromFile("soulspear_diffuse.tga");
 	spearNormal->LoadFromFile("soulspear_normal.tga");
 	spearSpecular->LoadFromFile("soulspear_specular.tga");
 
-	//Suzanne
-	Mesh* suzanneMesh = new Mesh();
-	suzanneMesh->InitialiseFromFile("Suzanne.fbx");
-	//add textures
-	Texture* suzanneDiffuse = new Texture();
-	suzanneDiffuse->LoadFromFile("SuzanneTestTex.png");
+	////Suzanne
+	//Mesh* suzanneMesh = new Mesh();
+	//suzanneMesh->InitialiseFromFile("Suzanne.fbx");
+	////add textures
+	//Texture* suzanneDiffuse = new Texture(0);
+	//suzanneDiffuse->LoadFromFile("SuzanneTestTex.png");
 
 	//Initialise scene objcets
 	MeshInstance spear;
 	spear.mesh = soulSpearMesh;
-	spear.texture = spearDiffuse;
+	spear.diffuseTex = spearDiffuse;
+	spear.normalTex = spearNormal;
+	spear.specularTex = spearSpecular;
 	spear.shader = m_shader;
 	spear.position = glm::vec3(-10, 0, 0);
 
 	MeshInstance spear02;
 	spear02.mesh = soulSpearMesh;
-	spear02.texture = spearDiffuse;
+	spear02.diffuseTex = spearDiffuse;
+	spear02.normalTex = spearNormal;
+	spear02.specularTex = spearSpecular;
 	spear02.shader = m_shader;
 	spear02.position = glm::vec3(10, 0, 0);
 
 	MeshInstance spear03;
 	spear03.mesh = soulSpearMesh;
-	spear03.texture = spearDiffuse;
+	spear03.rotation = glm::vec3(0, 1, 0);
+	spear03.diffuseTex = spearDiffuse;
+	spear03.normalTex = spearNormal;
+	spear03.specularTex = spearSpecular;
 	spear03.shader = m_shader;
 	spear03.position = glm::vec3(0, 0, 0);
+	spear03.rotation = glm::vec3(0, 1, 0);
 
-	MeshInstance monkey;
-	monkey.mesh = suzanneMesh;
-	monkey.texture = suzanneDiffuse;
-	monkey.shader = m_shader;
-	monkey.position = glm::vec3(5, 0, 0);
-	monkey.rotation = glm::vec3(180, 0, 0);
-
-	MeshInstance monkey02;
-	monkey02.mesh = suzanneMesh;
-	monkey02.texture = suzanneDiffuse;
-	monkey02.shader = m_shader;
-	monkey02.position = glm::vec3(-5, 0, 0);
-	monkey02.rotation = glm::vec3(180, 0, 0);
+	//MeshInstance monkey;
+	//monkey.mesh = suzanneMesh;
+	//monkey.diffuseTex = suzanneDiffuse;
+	//monkey.shader = m_shader;
+	//monkey.position = glm::vec3(5, 0, 0);
+	//monkey.rotation = glm::vec3(180, 0, 0);
+	//
+	//MeshInstance monkey02;
+	//monkey02.mesh = suzanneMesh;
+	//monkey02.diffuseTex = suzanneDiffuse;
+	//monkey02.shader = m_shader;
+	//monkey02.position = glm::vec3(-5, 0, 0);
+	//monkey02.rotation = glm::vec3(180, 0, 0);
 
 	objects.push_back(spear);	
 	objects.push_back(spear02);	
 	objects.push_back(spear03);	
-	objects.push_back(monkey);
-	objects.push_back(monkey02);
+	//objects.push_back(monkey);
+	//objects.push_back(monkey02);
 
 	//Directional light
-	m_directionalLight.direction = glm::vec3(1, 1, 0);
-	m_directionalLight.rotationSpeed = 0.5;
-	m_directionalLight.colour = { 1,1,1 };
+	lightDirection = glm::vec3(0, 0, 1);
+	m_directionalLight.direction = lightDirection;
+	m_directionalLight.rotationSpeed = 1;
+	m_directionalLight.colour = { 0,1,0 };
 
-	//Ambient light
-	m_ambientLight = { 0.25, 0.25, 0.25 };
+	lightDirection02 = glm::vec3(1, 0, 0);
+	m_directionalLight02.direction = lightDirection02;
+	m_directionalLight02.rotationSpeed = 2;
+	m_directionalLight02.colour = { 0,0,0 };
+
+
     return true;
 }
 
 void Application::Update(float delta)
 {	
 	mainCamera.Update(delta, m_window);
-	m_directionalLight.direction = glm::normalize(glm::vec3(glm::cos(delta * m_directionalLight.rotationSpeed), glm::sin(delta * m_directionalLight.rotationSpeed), 0));
+	if (glfwGetKey(m_window, GLFW_KEY_ENTER) == GLFW_PRESS)
+	{
+		mainCamera.PrintPos();
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_3) == GLFW_PRESS)
+	{
+		m_directionalLight02.colour = { 1,0,0 };
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_4) == GLFW_PRESS)
+	{
+		m_directionalLight02.colour = { 0,0,0 };
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_1) == GLFW_PRESS)
+	{
+		m_directionalLight.colour = { 0,1,0 };
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_2) == GLFW_PRESS)
+	{
+		m_directionalLight.colour = { 0,0,0 };
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_O) == GLFW_PRESS)
+	{
+		m_directionalLight.direction = glm::normalize(glm::vec3(glm::cos(delta * m_directionalLight.rotationSpeed), glm::sin(delta * m_directionalLight.rotationSpeed), 0));
+	}
+	if (glfwGetKey(m_window, GLFW_KEY_P) == GLFW_PRESS)
+	{
+		m_directionalLight02.direction = glm::normalize(glm::vec3(glm::cos(delta * -m_directionalLight02.rotationSpeed), glm::sin(delta * -m_directionalLight02.rotationSpeed), 0));
+	}
 }
 
 void Application::Draw()
@@ -141,7 +181,7 @@ void Application::Draw()
 	ImGui::Begin("Camera Controls");
 
 	ImGui::SetWindowPos(ImVec2(10, 10));
-	ImGui::SetWindowSize(ImVec2(160, 202));
+	ImGui::SetWindowSize(ImVec2(160, 300));
 
 	ImGui::Text("Forwards: W");
 	ImGui::Text("Backwards: S");
@@ -152,7 +192,12 @@ void Application::Draw()
 	ImGui::Text("Pitch Up: I");
 	ImGui::Text("Pitch Down: K");
 	ImGui::Text("Upwards: SPACEBAR");
-	ImGui::Text("Downwards: LEFT ALT");
+	ImGui::Text("Light 1 on: 1");
+	ImGui::Text("Light 1 off: 2");
+	ImGui::Text("Light 2 on: 3");
+	ImGui::Text("Light 2 off: 4");
+	ImGui::Text("Move Light 1: O");
+	ImGui::Text("Move Light 2: P");
 
 	ImGui::End();
 	
@@ -176,9 +221,10 @@ void Application::Draw()
 	m_shader->Use();
 
 	//bind light 
-	m_shader->SetUniform("AmbientColour", m_ambientLight);
 	m_shader->SetUniform("LightColour", m_directionalLight.colour);
+	m_shader->SetUniform("LightColour02", m_directionalLight02.colour);
 	m_shader->SetUniform("LightDirection", m_directionalLight.direction);
+	m_shader->SetUniform("LightDirection02", m_directionalLight02.direction);
 
 	//bind mats 
 	soulSpearMesh->ApplyMat(m_shader);
